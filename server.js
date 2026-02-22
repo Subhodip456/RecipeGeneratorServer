@@ -122,7 +122,8 @@ app.post('/send-magic-link', (req, res) => {
   tokens[token] = { email, expires: Date.now() + 15 * 60 * 1000 };
 
   // Create the magic link
-  const magicLink = `http://localhost:${process.env.PORT}/verify?token=${token}`;
+  //const magicLink = `http://localhost:${process.env.PORT}/verify?token=${token}`;
+  const magicLink = `https://recipe-generator-server.vercel.app/verify?token=${token}`;
 
   // Send email with magic link
   transporter.sendMail(
