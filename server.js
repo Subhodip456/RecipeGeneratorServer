@@ -59,16 +59,15 @@ app.post('/send-magic-link', (req, res) => {
 // Endpoint to verify the magic link
 app.get('/verify', (req, res) => {
   const { token } = req.query;
-
   // Check if the token exists and is not expired
   const storedToken = tokens[token];
   if (!storedToken || storedToken.expires < Date.now()) {
     return res.status(400).send('Invalid or expired token');
   }
-
   // Successful verification
   delete tokens[token]; // Remove token after use
   res.send(`Hello ${storedToken.email}, you are now logged in!`);
+  res.redirect(`tastyrecipes://login?token=${token}`);
   // Optionally, redirect to your application's login page or dashboard
   // res.redirect(`http://yourapp.com/dashboard`);
 });
