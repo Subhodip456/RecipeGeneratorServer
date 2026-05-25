@@ -66,7 +66,7 @@ app.get('/verify', (req, res) => {
   }
   // Successful verification
   delete tokens[token]; // Remove token after use
-  res.send(`Hello ${storedToken.email}, you are now logged in!`);
+  //res.send(`Hello ${storedToken.email}, you are now logged in!`);
   res.redirect(`tastyrecipes://login?token=${token}`);
   // Optionally, redirect to your application's login page or dashboard
   // res.redirect(`http://yourapp.com/dashboard`);
