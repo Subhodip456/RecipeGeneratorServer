@@ -69,31 +69,51 @@ app.get('/verify', (req, res) => {
   //res.send(`Hello ${storedToken.email}, you are now logged in!`);
   // res.redirect(`tastyrecipes://login?token=${token}`);
   const deepLink = `tastyrecipes://login?token=${token}`;
+
   res.send(`
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Opening App...</title>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+        <title>Opening TastyRecipes</title>
         <script>
-          window.onload = function() {
-            window.location.href = "${deepLink}";
+          function openApp() {
+            // Try iframe method
+            var iframe = document.createElement("iframe");
+            iframe.style.display = "none";
+            iframe.src = "${deepLink}";
+            document.body.appendChild(iframe);
+            // Fallback
             setTimeout(function() {
-              document.getElementById("fallback").style.display = "block";
-            }, 2000);
-          };
+              window.location = "${deepLink}";
+            }, 1000);
+          }
+          window.onload = openApp;
         </script>
       </head>
-      <body style="font-family:sans-serif;text-align:center;padding-top:50px;">
+      <body
+        style="
+          font-family:sans-serif;
+          text-align:center;
+          padding-top:50px;">
         <h2>Opening TastyRecipes...</h2>
-        <p>If app does not open automatically:</p>
-        <a href="${deepLink}">
+        <p>
+          If app does not open automatically,
+          click below:
+        </p>
+        <a
+          href="${deepLink}"
+          style="
+            font-size:20px;
+            color:blue;
+          "
+        >
           Open App
         </a>
-        <div id="fallback" style="display:none;margin-top:20px;">
-          Please install or reopen the app.
-        </div>
       </body>
     </html>
   `);
