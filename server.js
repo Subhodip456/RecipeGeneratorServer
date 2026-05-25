@@ -67,9 +67,37 @@ app.get('/verify', (req, res) => {
   // Successful verification
   delete tokens[token]; // Remove token after use
   //res.send(`Hello ${storedToken.email}, you are now logged in!`);
-  res.redirect(`tastyrecipes://login?token=${token}`);
-  // Optionally, redirect to your application's login page or dashboard
-  // res.redirect(`http://yourapp.com/dashboard`);
+  // res.redirect(`tastyrecipes://login?token=${token}`);
+  const deepLink = `tastyrecipes://login?token=${token}`;
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Opening App...</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+          window.onload = function() {
+            window.location.href = "${deepLink}";
+            setTimeout(function() {
+              document.getElementById("fallback").style.display = "block";
+            }, 2000);
+          };
+        </script>
+      </head>
+      <body style="font-family:sans-serif;text-align:center;padding-top:50px;">
+        <h2>Opening TastyRecipes...</h2>
+        <p>If app does not open automatically:</p>
+        <a href="${deepLink}">
+          Open App
+        </a>
+        <div id="fallback" style="display:none;margin-top:20px;">
+          Please install or reopen the app.
+        </div>
+      </body>
+    </html>
+  `);
+  
 });
 
 app.listen(process.env.PORT, () => {
