@@ -65,7 +65,7 @@ app.get('/verify', (req, res) => {
     return res.status(400).send('Invalid or expired token');
   }
   // Successful verification
-  delete tokens[token]; // Remove token after use
+ // delete tokens[token]; // Remove token after use
   //res.send(`Hello ${storedToken.email}, you are now logged in!`);
   // res.redirect(`tastyrecipes://login?token=${token}`);
   const deepLink = `tastyrecipes://login?token=${token}`;
