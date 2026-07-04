@@ -214,11 +214,14 @@ app.get('/verify', (req, res) => {
 // This is the new endpoint the app should hit
 app.get('/verify-app', (req, res) => {
   const { token } = req.query;
+  console.log(token);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
     return res.json({ success: true, email: decoded.email });
   } catch (err) {
+    console.log(err);
     return res.status(400).json({ success: false, message: 'Invalid or expired token' });
   }
 });
